@@ -189,13 +189,13 @@
         </div>
         
         <!-- Button to merge PDFs -->
-        <button class="merge-btn" onclick="mergePdfFiles()">Merge PDFs</button>
+        <button class="merge-btn" onclick="mergePdfFiles()">Gabungkan PDF</button>
         <br><br>
         <!-- Button to remove all input fields -->
-        <button id="clearBtn" onclick="removeAllInputs()">Remove All Inputs</button>
+        <button id="clearBtn" onclick="removeAllInputs()">Hapus Semua Input</button>
         <br><br>
         <!-- Button to go back to the form -->
-        <button class="back-btn" onclick="goBack()">Back to Form</button>
+        <button class="back-btn" onclick="goBack()">Kembali ke Dokumen</button>
 
         <!-- Placeholder for the merged PDF download link -->
         <div id="uploadedFiles"></div>
@@ -216,7 +216,7 @@
         }
         async function mergePdfFiles() {
             // Prompt the user for the desired file name
-            const fileName = prompt('Enter the file name (without extension):');
+            const fileName = prompt('Masukkan Nama File (tanpa ekstensi tambahan seperti .pdf):');
         
             // Array to store PDF array buffers
             const pdfArrayBuffers = [];
