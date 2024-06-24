@@ -295,9 +295,10 @@
       <button onclick="clearAllEditable()">Hapus Isi Surat</button>
     </div>
     <div class="button-container2" style="margin-bottom: 20px;">
-      <button onclick="generatePDF()">Jadikan PDF</button>
-      <button onclick="generatePDFSurat()">Jadikan PDF (surat saja)</button>
-      <button onclick="generatePDFKonten()">Jadikan PDF (Rekap Saja)</button>
+  <button onclick="generatePDF('combined')">Jadikan PDF</button>
+  <button onclick="generatePDF('surat')">Jadikan PDF (surat saja)</button>
+  <button onclick="generatePDF('konten')">Jadikan PDF (Rekap Saja)</button>
+
       <a href="merge.html"><button>Tambahkan Lampiran</button></a>
 
     </div>
@@ -421,123 +422,6 @@
   </div>
 </div>
 
-    <!-- Data container to display the table -->
-<!--   
-        <div id="data-container">
-          <h2>Rekap Sebelumnya:</h2>
-          <link rel="stylesheet" href="history.css">
-          <style>
-            table {
-              border-collapse: collapse;
-              border: 0.01px solid #000000;
-    
-              margin: 0;
-              padding: 0;
-              box-sizing: border-box;
-              border: 0.01px solid black;
-              border-bottom: 0.01px solid black;
-              margin-left: 2.54CM;
-              margin-right: 2.54CM;
-            }
-    
-            th,
-            td {
-              padding: 2px;
-              border: 0.1px solid #000000;
-              border-bottom: 0.1px solid #000000;
-            }
-    
-            th {
-              background-color: #00000000;
-              text-align: center;
-            }
-    
-            td {
-              text-align: left;
-            }
-          </style>    
-      <div class="home-container">
-        <span class="home-text" contenteditable="true">
-          <span>BENDAHARA PENGELUARAN MABES TNI&nbsp;</span>
-          <span>KU TNI WILAYAH NUSRA NA. 1.01.12</span>
-        </span>
-        <div class="home-container01" contenteditable="true">
-          <h3>Rekap SPBy PAMTAS MEI TA. 2024</h3>
-        </div>
-        <br />
-        <table id="data-table" contenteditable="true">
-          <tr>
-            <th>NO</th>
-            <th>NO SPPA</th>
-            <th style="width: 30%;">URAIAN</th>
-            <th>NO SPBy</th>
-            <th>Jumlah (Rp)</th>
-          </tr>
-        </table>
-        <br />
-        <span class="home-text05" contenteditable="true">CATATAN :</span>
-        <div class="home-container02">
-          <span class="home-text06" contenteditable="true">Jumlah SPPA 263 :</span>
-          <div class="home-container03">
-            <span class="home-text07" contenteditable="true">Rp.</span>
-          </div>
-        </div>
-        <div class="home-container04">
-          <span class="home-text08" contenteditable="true">Jumlah s.d SPBy yg lalu</span>
-          <div class="home-container05">
-            <span class="home-text09" contenteditable="true">Rp.&nbsp;</span>
-          </div>
-        </div>
-        <div class="home-container06">
-          <span class="home-text10" contenteditable="true">Jumlah SPBy ini</span>
-          <div class="home-container07">
-            <span class="home-text11" contenteditable="true" style="text-decoration: underline;" >Rp.</span>
-          </div>
-        </div>
-        <div class="home-container08">
-          <div class="home-container09">
-            <span class="home-text12">
-              <span contenteditable="true" style="text-decoration: underline;" >Rp</span>
-              <br />
-              <span contenteditable="true" style="text-decoration: underline;" >Rp.</span>
-              <br />
-            </span>
-          </div>
-        </div>
-        <span class="home-text17" contenteditable="true">Sisa SPPA 263</span>
-        <div class="home-container10">
-          <div class="home-container11">
-            <span class="home-text18">
-              <span contenteditable="true">Pgs. PUM TNI Wilayah Nusra</span>
-              <br />
-              <span contenteditable="true">NA. 1.01.12</span>
-              <br />
-            </span>
-          </div>
-        </div>
-        <div class="home-container12">
-          <div class="home-container13">
-            
-          <img id="signatureImage2" src="" alt="Tanda Tangan" style="max-width:200px;" class="home-image">
-            </label>
-            <input type="file" id="image-input2" accept="image/*" style="display: none;">
-
-          </div>
-        </div>
-        <div class="home-container14">
-          <div class="home-container15">
-            <span class="home-text23">
-              <span contenteditable="true">I Made Swastika</span>
-              <br />
-              <span contenteditable="true">Mayor Chk NRP 2194032610573</span>
-              <br />
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </body> -->
-
   <script>
     let rowNumber = 1; // Initialize row number
 
@@ -572,40 +456,11 @@
 
   </div>
 
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
-  <script>
-    function generatePDFKonten() {
-  const konten = document.querySelector('.home-container'); // Target the konten container
-
-  const combinedContent = document.createElement('div');
-  combinedContent.appendChild(konten.cloneNode(true)); // Clone and append the konten container
-
-  const options = {
-    margin: 0,
-    filename: 'document.pdf',
-    image: {
-      type: 'jpeg',
-      quality: 0.98
-    },
-    html2canvas: {
-      scale: 2,
-      logging: true,
-      dpi: 192,
-      letterRendering: true
-    },
-    jsPDF: {
-      unit: 'mm',
-      format: 'a4',
-      orientation: 'portrait'
-    },
-    pagebreak: {
-      mode: 'avoid-all'
-    } // Prevent page breaks
-  };
-
-  const dialog = document.createElement('div');
-  dialog.innerHTML = `
+<script>
+  function createDialog(options, combinedContent) {
+    const dialog = document.createElement('div');
+    dialog.innerHTML = `
       <p>Choose an option:</p>
       <label for="filename">File Name:</label>
       <input type="text" id="filename" placeholder="Enter file name">
@@ -613,208 +468,70 @@
       <button id="sendEmail">Send via Email</button>
       <button id="cancel">Cancel</button>
     `;
-  dialog.style.position = 'fixed';
-  dialog.style.top = '50%';
-  dialog.style.left = '50%';
-  dialog.style.transform = 'translate(-50%, -50%)';
-  dialog.style.background = '#fff';
-  dialog.style.padding = '20px';
-  dialog.style.border = '2px solid #ccc';
-  dialog.style.borderRadius = '5px';
-  dialog.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
-  dialog.style.zIndex = '9999';
-
-  document.body.appendChild(dialog);
-
-  // Function to remove the dialog
-  const removeDialog = () => {
-    document.body.removeChild(dialog);
-  };
-
-  // Event listeners for buttons
-  document.getElementById('savePDF').addEventListener('click', () => {
-    const fileName = document.getElementById('filename').value.trim() || 'document';
-    options.filename = `${fileName}.pdf`;
-    html2pdf().from(combinedContent).set(options).save();
-    removeDialog();
-  });
-
-  document.getElementById('sendEmail').addEventListener('click', () => {
-    const fileName = document.getElementById('filename').value.trim() || 'document';
-    options.filename = `${fileName}.pdf`;
-    html2pdf().from(combinedContent).set(options).output('blob').then((pdfBlob) => {
-      const pdfUrl = URL.createObjectURL(pdfBlob);
-      window.open(`mailto:?subject=Document&body=Please find the attached document.&attachment=${pdfUrl}`, '_blank');
-    });
-    removeDialog();
-  });
-
-  document.getElementById('cancel').addEventListener('click', () => {
-    removeDialog();
-  });
-}
-
-
-    function generatePDF() {
-      const homeContainer = document.querySelector('.konten-container'); // Target the first container
-      const konten = document.querySelector('.home-container'); // Target the second container
-
-      const combinedContent = document.createElement('div');
-      combinedContent.appendChild(homeContainer.cloneNode(true)); // Clone and append the first container
-      combinedContent.appendChild(konten.cloneNode(true)); // Clone and append the second container
-
-      const options = {
-        margin: 0,
-        filename: 'document.pdf',
-        image: {
-          type: 'jpeg',
-          quality: 0.98
-        },
-        html2canvas: {
-          scale: 2,
-          logging: true,
-          dpi: 192,
-          letterRendering: true
-        },
-        jsPDF: {
-          unit: 'mm',
-          format: 'a4',
-          orientation: 'portrait'
-        },
-        pagebreak: {
-          mode: 'avoid-all'
-        } // Prevent page breaks
-      };
-
-      const dialog = document.createElement('div');
-      dialog.innerHTML = `
-          <p>Choose an option:</p>
-          <label for="filename">File Name:</label>
-          <input type="text" id="filename" placeholder="Enter file name">
-          <button id="savePDF">Save PDF</button>
-          <button id="sendEmail">Send via Email</button>
-          <button id="cancel">Cancel</button>
-        `;
-      dialog.style.position = 'fixed';
-      dialog.style.top = '50%';
-      dialog.style.left = '50%';
-      dialog.style.transform = 'translate(-50%, -50%)';
-      dialog.style.background = '#fff';
-      dialog.style.padding = '20px';
-      dialog.style.border = '2px solid #ccc';
-      dialog.style.borderRadius = '5px';
-      dialog.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
-      dialog.style.zIndex = '9999';
-
-      document.body.appendChild(dialog);
-
-      // Function to remove the dialog
-      const removeDialog = () => {
-        document.body.removeChild(dialog);
-      };
-
-      // Event listeners for buttons
-      document.getElementById('savePDF').addEventListener('click', () => {
-        const fileName = document.getElementById('filename').value.trim() || 'document';
-        options.filename = `${fileName}.pdf`;
-        html2pdf().from(combinedContent).set(options).save();
-        removeDialog();
-      });
-
-      document.getElementById('sendEmail').addEventListener('click', () => {
-        const fileName = document.getElementById('filename').value.trim() || 'document';
-        options.filename = `${fileName}.pdf`;
-        html2pdf().from(combinedContent).set(options).output('blob').then((pdfBlob) => {
-          const pdfUrl = URL.createObjectURL(pdfBlob);
-          window.open(`mailto:?subject=Document&body=Please find the attached document.&attachment=${pdfUrl}`, '_blank');
-        });
-        removeDialog();
-      });
-
-      document.getElementById('cancel').addEventListener('click', () => {
-        removeDialog();
-      });
-    }
-
-
-    function generatePDFSurat() {
-  const homeContainer = document.querySelector('.konten-container'); // Target the home container
-
-  const combinedContent = document.createElement('div');
-  combinedContent.appendChild(homeContainer.cloneNode(true)); // Clone and append the home container
-
-  const options = {
-    margin: 0,
-    filename: 'document.pdf',
-    image: {
-      type: 'jpeg',
-      quality: 0.98
-    },
-    html2canvas: {
-      scale: 2,
-      logging: true,
-      dpi: 192,
-      letterRendering: true
-    },
-    jsPDF: {
-      unit: 'mm',
-      format: 'a4',
-      orientation: 'portrait'
-    },
-    pagebreak: {
-      mode: 'avoid-all'
-    } // Prevent page breaks
-  };
-
-  const dialog = document.createElement('div');
-  dialog.innerHTML = `
-      <p>Choose an option:</p>
-      <label for="filename">File Name:</label>
-      <input type="text" id="filename" placeholder="Enter file name">
-      <button id="savePDF">Save PDF</button>
-      <button id="sendEmail">Send via Email</button>
-      <button id="cancel">Cancel</button>
+    dialog.style = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      padding: 20px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      z-index: 9999;
     `;
-  dialog.style.position = 'fixed';
-  dialog.style.top = '50%';
-  dialog.style.left = '50%';
-  dialog.style.transform = 'translate(-50%, -50%)';
-  dialog.style.background = '#fff';
-  dialog.style.padding = '20px';
-  dialog.style.border = '2px solid #ccc';
-  dialog.style.borderRadius = '5px';
-  dialog.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.2)';
-  dialog.style.zIndex = '9999';
 
-  document.body.appendChild(dialog);
+    document.body.appendChild(dialog);
 
-  // Function to remove the dialog
-  const removeDialog = () => {
-    document.body.removeChild(dialog);
-  };
+    const removeDialog = () => document.body.removeChild(dialog);
 
-  // Event listeners for buttons
-  document.getElementById('savePDF').addEventListener('click', () => {
-    const fileName = document.getElementById('filename').value.trim() || 'document';
-    options.filename = `${fileName}.pdf`;
-    html2pdf().from(combinedContent).set(options).save();
-    removeDialog();
-  });
-
-  document.getElementById('sendEmail').addEventListener('click', () => {
-    const fileName = document.getElementById('filename').value.trim() || 'document';
-    options.filename = `${fileName}.pdf`;
-    html2pdf().from(combinedContent).set(options).output('blob').then((pdfBlob) => {
-      const pdfUrl = URL.createObjectURL(pdfBlob);
-      window.open(`mailto:?subject=Document&body=Please find the attached document.&attachment=${pdfUrl}`, '_blank');
+    document.getElementById('savePDF').addEventListener('click', () => {
+      const fileName = document.getElementById('filename').value.trim() || 'document';
+      options.filename = `${fileName}.pdf`;
+      html2pdf().from(combinedContent).set(options).save();
+      removeDialog();
     });
-    removeDialog();
-  });
 
-  document.getElementById('cancel').addEventListener('click', () => {
-    removeDialog();
-  });
-}
+    document.getElementById('sendEmail').addEventListener('click', () => {
+      const fileName = document.getElementById('filename').value.trim() || 'document';
+      options.filename = `${fileName}.pdf`;
+      html2pdf().from(combinedContent).set(options).output('blob').then(pdfBlob => {
+        const pdfUrl = URL.createObjectURL(pdfBlob);
+        window.open(`mailto:?subject=Document&body=Please find the attached document.&attachment=${pdfUrl}`, '_blank');
+      });
+      removeDialog();
+    });
+
+    document.getElementById('cancel').addEventListener('click', removeDialog);
+  }
+
+  function generatePDF(type) {
+    const containers = {
+      konten: ['.home-container'],
+      surat: ['.konten-container'],
+      combined: ['.konten-container', '.home-container']
+    };
+
+    const combinedContent = document.createElement('div');
+    containers[type].forEach(selector => {
+      const container = document.querySelector(selector);
+      if (container) {
+        combinedContent.appendChild(container.cloneNode(true));
+      }
+    });
+
+    const options = {
+      margin: 0,
+      filename: 'document.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, logging: true, dpi: 192, letterRendering: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+      pagebreak: { mode: 'avoid-all' }
+    };
+
+    createDialog(options, combinedContent);
+  }
+
 
 
 
